@@ -65,9 +65,9 @@ app.get('/mahasiswa/update/:npm', (req, res) => {
 			tulisan: text,
 			id: hasil[0].id,
 			npm: hasil[0].npm,
-	    nama: hasil[0].nama_lengkap,
-	    kelas: hasil[0].kelas,
-	    alamat: hasil[0].alamat
+	    		nama: hasil[0].nama_lengkap,
+	    		kelas: hasil[0].kelas,
+	    		alamat: hasil[0].alamat
 		})
 	})
 })
