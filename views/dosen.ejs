@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>UNINDRA ACADEMY</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+	  <div class="container">
+	    <a class="navbar-brand text-light" href="/dosen">UNINDRA</a>
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse" id="navbarNav">
+	      <ul class="navbar-nav">
+	        <li class="nav-item">
+	          <a class="nav-link text-light" href="/">Beranda</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link text-light" href="/mahasiswa">Data Mahasiswa</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link active text-light text-decoration-underline" href="/dosen" aria-current="page">Data Dosen</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link text-light" href="/matkul">Data Matkul</a>
+	        </li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+
+	<div class="container p-3">
+		<div class="header mb-3 d-flex justify-content-between">
+			<h5>Data Dosen</h5>
+			<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah</button>
+		</div>
+		<div class="kolom-cari mb-2">
+			<form action="/dosen/search-dosen" method="post" class="d-flex justify-content-between">
+				<div class="keyword w-100">
+					<input type="search" class="form-control form-control-sm" placeholder="Cari Dosen" name="cari">
+				</div>
+				<div class="button-cari" style="margin-left: 10px;">
+					<button type="submit" class="btn btn-primary btn-sm">Cari</button>
+				</div>
+			</form>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-striped">
+			  <thead>
+			    <tr>
+			      <th scope="col" nowrap="nowrap">ID Dosen</th>
+			      <th scope="col" nowrap="nowrap">NPD</th>
+			      <th scope="col" nowrap="nowrap">Nama Lengkap</th>
+			      <th scope="col" nowrap="nowrap">Alamat</th>
+			      <th scope="col" nowrap="nowrap">Email</th>
+			      <th scope="col" nowrap="nowrap">Aksi</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+				  <% for (hasil of data) { %>
+				    <tr>
+				      <th scope="row" nowrap="nowrap"><%= hasil.id %></th>
+				      <td nowrap="nowrap"><%= hasil.npd %></td>
+				      <td nowrap="nowrap"><%= hasil.nama_lengkap %></td>
+				      <td nowrap="nowrap"><%= hasil.alamat %></td>
+				      <td nowrap="nowrap"><%= hasil.email %></td>
+				      <td nowrap="nowrap">
+				      	<a href="/dosen/update/<%= hasil.npd %>" type="button" class="btn btn-primary btn-sm">
+				      		Edit
+				      	</a>
+				      	<a onclick="konfirmasi('/dosen/delete/<%= hasil.npd %>')" type="button" class="btn btn-primary btn-sm">
+				      		Delete
+				      	</a>
+				      </td>
+				    </tr>
+				  <% } %>
+			  </tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data Dosen</h1>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <form action="/add-dosen" method="post">
+		      <div class="modal-body">
+		      	<div class="mb-3">
+						  <label for="exampleFormControlInput1" class="form-label">NPD</label>
+						  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Masukan NPD" name="npd" required="required">
+						</div>
+	      		<div class="mb-3">
+						  <label for="exampleFormControlInput1" class="form-label">Nama lengkap</label>
+						  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Nama Dosen" name="nama" required="required">
+						</div>
+						<div class="mb-3">
+						  <label for="exampleFormControlInput1" class="form-label">Alamat</label>
+						  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Masukan Alamat" name="alamat" required="required">
+						</div>
+						<div class="mb-3">
+						  <label for="exampleFormControlInput1" class="form-label">Email</label>
+						  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Masukan Email" name="email" required="required">
+						</div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+		        <button type="submit" class="btn btn-primary" onclick="simpan()">Save</button>
+		      </div>
+	      </form>
+	    </div>
+	  </div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+	<script type="text/javascript">
+		// popup konfir delete data
+		function konfirmasi(link) {
+			Swal.fire({
+			  title: 'Anda yakin ingin menghapusnya?',
+			  // showDenyButton: true,
+			  showCancelButton: true,
+			  confirmButtonText: 'Hapus',
+			  icon: 'question',
+			  confirmButtonColor: '#0D6EFD'
+			  // denyButtonText: `Don't save`,
+			}).then((result) => {
+			  /* Read more about isConfirmed, isDenied below */
+			  if (result.isConfirmed) {
+			    Swal.fire({
+			    	title: 'Hapus Berhasil!', 
+			    	text: 'Data dosen berhasil terhapus',
+			    	icon: 'success',
+			    	showConfirmButton: false
+			    })   
+			    setTimeout(function() {
+			    	return document.location.href = link
+			    }, 1500)
+			  } else if (result.isDenied) {
+			    Swal.fire('Hapus Data Gagal!', '', 'error')
+			  }
+			})
+		}
+
+		// popup simpan data
+		function simpan() {
+			Swal.fire({
+				title: 'Simpan Berhasil!',
+				text: 'Data dosen berhasil tersimpan',
+				icon: 'success',
+				timer: 2000,
+				showConfirmButton: false
+			})
+		}
+	</script>
+</body>
+</html>
